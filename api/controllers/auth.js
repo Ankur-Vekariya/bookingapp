@@ -11,6 +11,7 @@ export const register = async (req, res, next) => {
       username: req.body.username,
       email: req.body.email,
       password: hash,
+      isadmin: req.body.isadmin,
     });
 
     await newUser.save();
@@ -35,13 +36,13 @@ export const login = async (req, res, next) => {
       { id: user._id, isAdmin: user.isadmin },
       "bookingapp"
     );
-    const { password, isadmin, ...otheerDetails } = user._doc;
+    const { password, isadmin, ...otherDetails } = user._doc;
     res
       .cookie("access_token", token, {
         httponly: true,
       })
       .status(200)
-      .send({ ...otheerDetails });
+      .send({ ...otherDetails });
   } catch (error) {
     next(error);
   }

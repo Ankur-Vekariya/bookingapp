@@ -5,12 +5,19 @@ import {
   getUser,
   updateUser,
 } from "../controllers/user.js";
-import { verifyToken } from "../utils/verifyToken.js";
+import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
 
 const router = express.Router();
 
 router.get("/check", verifyToken, (req, res, next) => {
-  res.send("hello user loged in");
+  res.send("hello user logged in");
+});
+
+router.get("/checkuser/:id", verifyUser, (req, res, next) => {
+  res.send("hello user logged in to delete hotel");
+});
+router.get("/checkadmin/:id", verifyAdmin, (req, res, next) => {
+  res.send("hello admin logged in to delete all hotel");
 });
 //update
 router.put("/:id", updateUser);
