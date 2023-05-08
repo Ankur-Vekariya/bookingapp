@@ -6,6 +6,7 @@ import usersRoute from "./routes/users.js";
 import hotelsRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 dotenv.config();
@@ -23,7 +24,12 @@ mongoose.connection.addListener("disconnection", () => {
 });
 
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 //middleware
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
@@ -38,11 +44,11 @@ app.use((err, req, res, next) => {
     success: false,
     status: errorStatus,
     message: errorMessage,
-    stack:err.stack
+    stack: err.stack,
   });
 });
 
 app.listen(8800, () => {
   connect();
-  console.log("connected to backend!");
+  console.log("connected to backend! 8800");
 });
